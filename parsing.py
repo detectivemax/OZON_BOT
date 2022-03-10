@@ -188,6 +188,10 @@ def data_to_excel(ozon_content):
 
     row_index = 3
     sum_total = 0
+    sum_pay_back = 0
+    to_maxim_total = 0
+    value_total = 0
+
     for row in ozon_content:
         if row['metrics'][0] != 0:
             try:
@@ -265,14 +269,17 @@ def data_to_excel(ozon_content):
 
                     # Прибыть общая
                     value = cash - price
+                    value_total += value
                     sheet[row_index][16].value = value
 
                     # Максиму
                     to_maxim = round(value / 3 + com_3)
+                    to_maxim_total += to_maxim
                     sheet[row_index][17].value = to_maxim
 
                     # Вернуть
                     to_pay_back = cash - to_maxim
+                    sum_pay_back += to_pay_back
                     sheet[row_index][18].value = round(to_pay_back)
                     sheet[f"S{row_index}"].fill = PatternFill(start_color="f8bf8f", end_color="f8bf8f", fill_type="solid")
 
@@ -282,6 +289,27 @@ def data_to_excel(ozon_content):
                 row_index += 1
             except Exception as e:
                 print(e)
+
+            try:
+                # Вернуть
+                sheet[row_index][18].value = round(sum_pay_back)
+                sheet[f"S{row_index}"].fill = PatternFill(start_color="f8bf8f", end_color="f8bf8f", fill_type="solid")
+
+                # Максиму
+                to_maxim = to_maxim_total
+                sheet[row_index][17].value = to_maxim
+
+                # # Прибыль общая
+                # value = value_total
+                # sheet[row_index][16].value = value
+
+
+
+            except Exception as e:
+                print(e)
+
+
+
 
             # print(row)
             # print(f"Название: {row['dimensions'][0]['name']}")

@@ -64,7 +64,6 @@ async def admin_sales_percent(callback: types.CallbackQuery):
     await bot.send_document(user_id, doc, caption=caption)
 
 
-
 # Ежемесячный отчет
 async def post():
     time_end = get_date(-1)
